@@ -6,7 +6,6 @@
 
 #include "goods.h"
 #include "backpack.h"
-//  void init_goods(struct Goods* goods);
 
 using namespace std;
 
