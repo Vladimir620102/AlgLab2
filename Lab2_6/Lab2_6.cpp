@@ -51,7 +51,7 @@ bool isLeaf(Node* root) {
     return root->left == nullptr && root->right == nullptr;
 }
 
-// Проходим по дереву Хаффмана и сохраняем коды Хаффмана на карте.
+// Проходим по дереву Хаффмана и сохраняем коды Хаффмана в хэш-таблице.
 void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 {
     if (root == nullptr) {
@@ -62,7 +62,7 @@ void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
     if (isLeaf(root)) {
         huffmanCode[root->ch] = (str != EMPTY_STRING) ? str : "1";
     }
-
+    // левому дочернему узлу добавляем "0", правому - "1"
     encode(root->left, str + "0", huffmanCode);
     encode(root->right, str + "1", huffmanCode);
 }
@@ -106,7 +106,7 @@ void buildHuffmanTree(string text)
         freq[ch]++;
     }
 
-    cout << "частота символов:\n" << endl;
+    cout << "A) Частота символов:\n" << endl;
 
     for(auto pair : freq) {
         cout << pair.first << "\t" << pair.second << endl;
@@ -121,18 +121,18 @@ void buildHuffmanTree(string text)
         pq.push(getNode(pair.first, pair.second, nullptr, nullptr));
     }
 
-    // делаем до тех пор, пока в queue не окажется более одного узла
+    // делаем до тех пор, пока в очереди окажется не более одного узла
     while (pq.size() != 1)
     {
         // Удаляем два узла с наивысшим приоритетом
-        // (самая низкая частота) из queue
+        // (имеющих самую низкую частоту) из очереди
 
         Node* left = pq.top(); pq.pop();
         Node* right = pq.top();    pq.pop();
 
-        // создаем новый внутренний узел с этими двумя узлами в качестве дочерних и
+        // создаем новый родительский узел для этих двух узлов в качестве дочерних и
         // с частотой, равной сумме частот двух узлов.
-        // Добавляем новый узел в приоритетную очередь.
+        // Добавляем новый родительский узел в приоритетную очередь.
 
         int sum = left->freq + right->freq;
         pq.push(getNode('\0', sum, left, right));
@@ -145,7 +145,7 @@ void buildHuffmanTree(string text)
     unordered_map<char, string> huffmanCode;
     encode(root, EMPTY_STRING, huffmanCode);
 
-    cout << "Коды Хаффмана:\n" << endl;
+    cout << "B) Коды Хаффмана:\n" << endl;
     for (auto pair : huffmanCode) {
         cout << pair.first << " " << pair.second << endl;
     }
@@ -158,7 +158,7 @@ void buildHuffmanTree(string text)
         str += huffmanCode[ch];
     }
 
-    cout << "\nЗакодированная строка:\n" << str << endl;
+    cout << "\nC) Выходная последовательность (закодированная строка):\n" << str << endl;
     cout << "\nРаскодированная строка:\n";
 
     if (isLeaf(root))
