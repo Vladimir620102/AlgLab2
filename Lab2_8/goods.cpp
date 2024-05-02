@@ -49,7 +49,7 @@ string good_names[40] = {
 "Перчатки садовые ПЭ PALISAD(S)"
 };
 
-
+// инициализирует набор всех предметов 
 std::list<Goods> init_goods(std::list<Goods> goods)
 {
     //goods.resize(NUM_GOODS);

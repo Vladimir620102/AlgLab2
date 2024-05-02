@@ -24,14 +24,17 @@ int main()
 
     bp.make_all_sets(goods);
 
+    cout << endl;
+
     list<Goods> solve = bp.get_best_set();
+
     show_items(solve);
     return 0;
 }
 
 void show_items(list<Goods> items)
 {
-    cout << "Название   "<< "\t" << "Вес" << "\t" << "Стоимость" << endl;
+    cout << "Название   "<< "\t\t\t" << "Вес" << "\t" << "Стоимость" << endl;
 
     for (Goods item : items)
     {
