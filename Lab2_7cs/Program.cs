@@ -18,27 +18,33 @@ namespace Lab2_7cs
 
         static void Main(string[] args)
         {
-            PrepareData();
-            PrintSource();
-
-            FindLSC();
-
-            Console.Write("Длина наибольшей возрастающей подпоследовательности: ");
-            Console.WriteLine($"{_path.Count}");
-            Console.WriteLine("Наибольшая возрастающая подпоследовательность (один из вариантов)");
-            while (_path.Count > 0)
+            try
             {
-                Console.Write($"{_path.Pop(),2} ");
+                PrepareData();
+                PrintSource();
+
+                FindLIS();
+
+                Console.Write("Длина максимальной возрастающей подпоследовательности: ");
+                Console.WriteLine($"{_path.Count}");
+                Console.WriteLine("Максимальная возрастающая подпоследовательность (их может быть несколько одной длины):");
+                while (_path.Count > 0)
+                {
+                    Console.Write($"{_path.Pop(),3}");
+                }
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
 
             Console.ReadLine();
         }
 
-        private static void FindLSC()
+        private static void FindLIS()
         {
             var maxLen = _counts.Max(t => t.Value);
-            var indexmax = _counts.FirstOrDefault(t => t.Value == maxLen).Key;
-            SetPath(indexmax, maxLen);
+            SetPath(_counts.FirstOrDefault(t => t.Value == maxLen).Key, maxLen);
         }
 
         static void SetPath(int index, int len)
@@ -50,17 +56,22 @@ namespace Lab2_7cs
 
         private static void PrintSource()
         {
+            Console.WriteLine("Исходные данные:");
+            for (int i = 0; i < _source.Count; i++)
+                Console.Write($"{i,3}");
+            Console.WriteLine("");
+            for (int i = 0; i < _source.Count; i++)
+                Console.Write($"{_source[i],3}");
+            Console.WriteLine("");
+
             Console.WriteLine("Длина подпоследовательности для каждого элемента");
             foreach (var x in _counts)
-            {
-                //                Console.Write($"{x.Key}->{x.Value} ");
-                Console.Write($"{x.Value,2} ");
-                //_indexes.Add(x.Value);
-            }
+                Console.Write($"{x.Value,3}");
             Console.WriteLine("");
             Console.WriteLine("Индекс предыдущего элемента");
             for (int i = 0; i < _source.Count; i++)
-                Console.Write($"{_prevPositions[i],2} ");
+                Console.Write($"{_prevPositions[i],3}");
+            Console.WriteLine("");
             Console.WriteLine("");
         }
 
@@ -87,17 +98,28 @@ namespace Lab2_7cs
 
         static void InitDataSource()
         {
-            Console.WriteLine("Исходные данные:");
+            Console.Write("Введите количество элементов последовательности (не более 36): ");
+            var s = Console.ReadLine();
+            int num;
+
+            var flag = int.TryParse(s, out num);
+            if (!flag)
+            {
+                Console.WriteLine("Ошибка при вводе количества элементов последовательности.");
+                return;
+            }
+            _source.Clear();
+            Random r = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < num; i++)
+            {
+                _source.Add(r.Next() % 100);
+            }
+
             for (int i = 0; i < _source.Count; i++)
             {
-                Console.Write($"{i, 2} ");
                 _counts[i] = 1;
                 _prevPositions[i] = -1;
             }
-            Console.WriteLine("");
-            for (int i = 0; i < _source.Count; i++)
-                Console.Write($"{_source[i],2} ");
-            Console.WriteLine("");
         }
     }
 }
