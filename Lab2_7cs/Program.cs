@@ -9,7 +9,7 @@ namespace Lab2_7cs
 {
     internal class Program
     {
-        static List<int> _source = new List<int>() { 5, 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 };
+        static List<int> _source = new List<int>();
         //  static List<int> _source = new List<int>() { 7, 2, 1, 3, 8, 4, 9, 1, 2, 6, 5, 9, 3, 8, 1 };
 
         static Dictionary<int, int> _counts = new Dictionary<int, int>();
