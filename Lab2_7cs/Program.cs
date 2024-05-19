@@ -15,30 +15,45 @@ namespace Lab2_7cs
         static Dictionary<int, int> _counts = new Dictionary<int, int>();
         static Dictionary<int, int> _prevPositions = new Dictionary<int, int>();
         static Stack<int> _path = new Stack<int>();
+        static Dictionary<int, int> _D = new Dictionary<int, int>();
+        const int INF = 100;
 
         static void Main(string[] args)
         {
             try
             {
-                PrepareData();
-                PrintSource();
+                InitDataSource();
 
-                FindLIS();
-
-                Console.Write("Длина максимальной возрастающей подпоследовательности: ");
-                Console.WriteLine($"{_path.Count}");
-                Console.WriteLine("Максимальная возрастающая подпоследовательность (их может быть несколько одной длины):");
-                while (_path.Count > 0)
-                {
-                    Console.Write($"{_path.Pop(),3}");
-                }
-            } 
+                TestN2();
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
 
+            
             Console.ReadLine();
+        }
+
+
+        static void TestN2()
+        {
+            PrepareData();
+            PrintSource();
+
+            FindLIS();
+            PrintN2();
+        }
+
+        private static void PrintN2()
+        {
+            Console.Write("Длина максимальной возрастающей подпоследовательности (N2): ");
+            Console.WriteLine($"{_path.Count}");
+            Console.WriteLine("Максимальная возрастающая подпоследовательность (их может быть несколько одной длины) (N2:");
+            while (_path.Count > 0)
+            {
+                Console.Write($"{_path.Pop(),3}");
+            }
         }
 
         private static void FindLIS()
@@ -56,6 +71,7 @@ namespace Lab2_7cs
 
         private static void PrintSource()
         {
+            Console.WriteLine("");
             Console.WriteLine("Исходные данные:");
             for (int i = 0; i < _source.Count; i++)
                 Console.Write($"{i,3}");
@@ -77,9 +93,9 @@ namespace Lab2_7cs
 
         private static void PrepareData()
         {
-            InitDataSource();
             GenericData();
         }
+
 
         private static void GenericData()
         {
@@ -119,6 +135,7 @@ namespace Lab2_7cs
             {
                 _counts[i] = 1;
                 _prevPositions[i] = -1;
+                _D[i] = -1;
             }
         }
     }
